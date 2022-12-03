@@ -1,0 +1,242 @@
+<% include ../views/partials/header %>
+
+
+<style>
+
+td {
+  vertical-align: top;
+}
+
+table {
+  margin-left: auto; 
+  margin-right: auto;
+}
+
+/*
+table, th, td {
+  border: 1px solid gray;
+  border-collapse: collapse;
+}
+th, td {
+  padding: 15px;
+}
+*/
+
+
+/* https://css-tricks.com/snippets/css/css-box-shadow/ */
+.shadow {
+   -moz-box-shadow:    inset 0 0 10px #000000;
+   -webkit-box-shadow: inset 0 0 10px #000000;
+   box-shadow:         inset 0 0 10px #000000;
+}
+
+.shadow2 {
+  -moz-box-shadow:    3px 3px 5px 6px #888;
+  -webkit-box-shadow: 3px 3px 5px 6px #888;
+  box-shadow:         3px 3px 5px 6px #888;
+}
+
+
+/* https://codepen.io/aaroniker/pen/XxPNqY */
+.bottom_left {
+  position: fixed;
+  display: block;
+  left: 10px;
+  bottom: 0px;
+}
+
+.iframe-container{
+  position: relative;
+  width: 100%;
+  padding-bottom: 58.35%; 
+  height: 0;
+}
+.iframe-container iframe{
+  position: absolute;
+  top:0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+
+/* https://codepen.io/nohoid/pen/kIfto */
+.wrapper { 
+  border-radius: 50px;
+  height: 120px;
+  width: 400px;
+background: linear-gradient(24deg, #ff2400, #e81d1d, #e8b71d, #e3e81d, #1de840, #1ddde8, #2b1de8, #dd00f3, #dd00f3);
+background-size: 1800% 1800%;
+
+-webkit-animation: rainbow 38s ease infinite;
+-z-animation: rainbow 38s ease infinite;
+-o-animation: rainbow 38s ease infinite;
+  animation: rainbow 38s ease infinite;}
+
+@-webkit-keyframes rainbow {
+    0%{background-position:0% 82%}
+    50%{background-position:100% 19%}
+    100%{background-position:0% 82%}
+}
+@-moz-keyframes rainbow {
+    0%{background-position:0% 82%}
+    50%{background-position:100% 19%}
+    100%{background-position:0% 82%}
+}
+@-o-keyframes rainbow {
+    0%{background-position:0% 82%}
+    50%{background-position:100% 19%}
+    100%{background-position:0% 82%}
+}
+@keyframes rainbow { 
+    0%{background-position:0% 82%}
+    50%{background-position:100% 19%}
+    100%{background-position:0% 82%}
+}
+
+</style>
+
+    </head>
+    <body style="background-color:black;color:white;">
+    
+
+
+    <div class="container">
+        <%- messages('message', locals) %>
+
+
+<br>
+<br>
+<div style="text-align:center;">
+<div style="display: inline-block; text-align: left;">
+
+<div class="wrapper">
+<br>
+		<h1 style="color:black;text-align:center;">HomophilyHub</h1>
+<br>
+</div>
+
+<br>
+<br>
+
+<table style="text-align:center;">
+	<tr>
+	<td>
+		<br>
+		<span style="font-size:42px;color:white;"><%= userCount %> people</span>
+	</td>
+	<td style="vertical-align: bottom;">
+		<span style="font-size:24px;color:gray;">&nbsp;<%= tagsAll.length %> commonalities</span>
+
+		<div style="margin-top:-10px;">
+		    &nbsp;&nbsp;
+		  <a data-toggle="collapse" href="#commonalitiesList" role="button" aria-expanded="false" aria-controls="commonalitiesList" id="showCommonalitiesList">
+		    <span style="font-size:11px;">Click here to see commonalities.</span>
+		  </a>
+		</div>
+
+		<br>
+		<span style="font-size:18px;color:black;background-color:gray;padding:5px;">&nbsp;<%= optInCount %> opt-ins&nbsp;</span>
+
+		<div style="margin-top:0px;">
+		    &nbsp;&nbsp;
+		  <a data-toggle="collapse" href="#optInList" role="button" aria-expanded="false" aria-controls="optInList" id="showOptInList">
+		    <span style="font-size:11px;">Click here to see opt-ins.</span>
+		  </a>
+		</div>
+	</td>
+	</tr>
+</table>
+
+<table class="collapse" id="collegeList">
+	<% collegeAll.forEach(function(college){ %>
+		<tr>
+			<td colspan="3">
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			</td>
+			<td>
+				<%= college.count %>
+			</td>
+			<td>
+				&nbsp;&nbsp;
+			</td>
+			<td>
+				<%= college.email %> <% if (college.email.endsWith(".com")) { %> <br><span style="font-size:10px;"><abbr title="If you're verified, you can login with a regular email.">No college email?</abbr></span> <% } %>
+			</td>
+		</tr>
+	<% }); %>
+</table>
+<table class="collapse" id="commonalitiesList">
+	<% tagsAll.forEach(function(tag){ %>
+		<tr>
+			<td>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			</td>
+			<td style="max-width:300px;color:gray;">
+				<%= tag.description %>
+			</td>
+			<td>
+				&nbsp;&nbsp;
+			</td>
+			<td>
+				<%= tag.count %> <% if (tag.count == 1) { %> person <% } else { %> people <% } %> opted-in
+			</td>
+		</tr>
+	<% }); %>
+</table>
+<table class="collapse" id="optInList">
+		<tr>
+			<td>
+				<%= lurkerCount %> lurkers
+			</td>
+			<td>
+				&nbsp;<span style="font-size:9px;color:black;background-color:gray;padding:5px;">opted-in to</span>
+			</td>
+			<td>
+				&nbsp;<span style="color:gray;">0 commonalities</span>
+			</td>				
+		</tr>
+	<% optInAll.forEach(function(optIn){ %>
+		<tr>
+			<td>
+				<%= optIn.count %> <% if (optIn.count == 1) { %> person <% } else { %> people <% } %>
+			</td>
+			<td>
+				&nbsp;<span style="font-size:9px;color:black;background-color:gray;padding:5px;">opted-in to</span>
+			</td>
+			<td>
+				&nbsp;<span style="color:gray;"><%= optIn.email %> <% if (optIn.email == 1) { %> commonality <% } else { %> commonalities <% } %></span>
+			</td>
+		</tr>
+	<% }); %>
+</table>
+</div>
+</div>
+
+
+
+
+
+
+
+</div>
+<script   src="https://code.jquery.com/jquery-1.12.4.js"   integrity="sha256-Qw82+bXyGq6MydymqBxNPYTaUXXq7c8v3CwiYwLLNXU="   crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+<script>
+$(document).ready(function(){
+  $("#showCommonalitiesList").click(function(){
+    $("#collegeList").collapse('hide');
+    $("#commonalitiesList").collapse('toggle');
+    $("#optInList").collapse('hide');
+  });
+  $("#showOptInList").click(function(){
+    $("#collegeList").collapse('hide');
+    $("#commonalitiesList").collapse('hide');
+    $("#optInList").collapse('toggle');
+  });
+});
+</script>
+
+</body>
+</html>
